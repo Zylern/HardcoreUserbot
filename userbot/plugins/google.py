@@ -1,84 +1,90 @@
 """ Powered by @Google
 Available Commands:
-.google <query>
-.google image <query>
-.google reverse search"""
+.gs <query>
+.gi <query>
+.grs"""
 
 import asyncio
 import os
-from re import findall
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from requests import get
-from urllib.parse import quote_plus
-from urllib.error import HTTPError
-from google_images_download import google_images_download
-from gsearch.googlesearch import search
-from userbot.utils import admin_cmd
+#from google_images_download import google_images_download
+from uniborg.util import admin_cmd
+import sys
+from telethon import events, functions, __version__
+from userbot.utils.google_images_download import googleimagesdownload
+import shutil
+from re import findall
 
 
 def progress(current, total):
     logger.info("Downloaded {} of {}\nCompleted {}".format(current, total, (current / total) * 100))
 
 
-@borg.on(admin_cmd("google (.*)"))
-async def _(event):
-    await event.edit("`UniBorg is Getting Information From Google Please Wait... ✍️🙇`")
-    match_ = event.pattern_match.group(1)
-    match = quote_plus(match_)
-    if not match:
-        await event.edit("`I can't search nothing !!`")
-        return
-    plain_txt = get(f"https://www.startpage.com/do/search?cmd=process_search&query={match}", 'html').text
-    soup = BeautifulSoup(plain_txt, "lxml")
-    msg = ""
-    for result in soup.find_all('a', {'class': 'w-gl__result-title'}):
-        title = result.text
-        link = result.get('href')
-        msg += f"**{title}**{link}\n"
-    await event.edit(
-        "**Google Search Query:**\n\n`" + match_ + "`\n\n**Results:**\n" + msg,
-        link_preview = False)
-
-
-@borg.on(admin_cmd("google image (.*)"))
+@borg.on(admin_cmd(pattern="gs (.*)", allow_sudo=True)) # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
     start = datetime.now()
-    await event.edit("Processing ...")
-    input_str = event.pattern_match.group(1)
-    response = google_images_download.googleimagesdownload()
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    arguments = {
-        "keywords": input_str,
-        "limit": Config.TG_GLOBAL_ALBUM_LIMIT,
-        "format": "jpg",
-        "delay": 1,
-        "safe_search": True,
-        "output_directory": Config.TMP_DOWNLOAD_DIRECTORY
-    }
-    paths = response.download(arguments)
-    lst = paths[input_str]
-    await borg.send_file(
-        event.chat_id,
-        lst,
-        caption=input_str,
-        reply_to=event.message.id,
-        progress_callback=progress
-    )
-    for each_file in lst:
-        os.remove(each_file)
+    await event.edit("Ruk Ja , Google Se Bolta Hoon Tera IP Ban Kare ...")
+    # SHOW_DESCRIPTION = False
+    input_str = event.pattern_match.group(1) # + " -inurl:(htm|html|php|pls|txt) intitle:index.of \"last modified\" (mkv|mp4|avi|epub|pdf|mp3)"
+    input_url = "https://bots.shrimadhavuk.me/search/?q={}".format(input_str)
+    headers = {"USER-AGENT": "UniBorg"}
+    response = requests.get(input_url, headers=headers).json()
+    output_str = " "
+    for result in response["results"]:
+        text = result.get("title")
+        url = result.get("url")
+        description = result.get("description")
+        image = result.get("image")
+        output_str += " 👉🏻  [{}]({}) \n\n".format(text, url)
     end = datetime.now()
     ms = (end - start).seconds
-    await event.edit("searched Google for {} in {} seconds.".format(input_str, ms), link_preview=False)
+    await event.edit("searched Google for {} in {} seconds. \n{}".format(input_str, ms, output_str), link_preview=False)
     await asyncio.sleep(5)
+    await event.edit("Google: {}\n{}".format(input_str, output_str), link_preview=False)
+
+
+@borg.on(admin_cmd(pattern="gi ?(.*)"))
+async def img_sampler(event):
+    await event.edit("`Processing ..`")
+    reply = await event.get_reply_message()
+    if event.pattern_match.group(1):
+        query = event.pattern_match.group(1)
+    elif reply:
+        query = reply.message
+    else:
+    	await event.edit("`What I am Supposed to Search ?`")
+    	return
+        
+    lim = findall(r"lim=\d+", query)
+    # lim = event.pattern_match.group(1)
+    try:
+        lim = lim[0]
+        lim = lim.replace("lim=", "")
+        query = query.replace("lim=" + lim[0], "")
+    except IndexError:
+        lim = 7
+    response = googleimagesdownload()
+
+    # creating list of arguments
+    arguments = {
+        "keywords": query,
+        "limit": lim,
+        "format": "jpg",
+        "no_directory": "no_directory"
+    }
+
+    # passing the arguments to the function
+    paths = response.download(arguments)
+    lst = paths[0][query]
+    await event.client.send_file(await event.client.get_input_entity(event.chat_id), lst)
+    shutil.rmtree(os.path.dirname(os.path.abspath(lst[0])))
     await event.delete()
 
-
-@borg.on(admin_cmd("google reverse search"))
+@borg.on(admin_cmd(pattern="grs"))
 async def _(event):
     if event.fwd_from:
         return
