@@ -13,7 +13,7 @@ from datetime import datetime
 from uniborg.util import admin_cmd
 import sys
 from telethon import events, functions, __version__
-from userbot.utils.google_images_download import googleimagesdownload
+from userbot.google_imgs import googleimagesdownload
 import shutil
 from re import findall
 
