@@ -1,3 +1,17 @@
+#   Copyright 2019 - 2020 DarkPrinc3
+
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
 from userbot import bot
 from telethon import events
 from var import Var
@@ -10,6 +24,8 @@ import logging
 import inspect
 
 def command(**args):
+    args["func"] = lambda e: e.via_bot_id is None
+
     stack = inspect.stack()
     previous_stack_frame = stack[1]
     file_test = Path(previous_stack_frame.filename)
@@ -130,6 +146,8 @@ def remove_plugin(shortname):
         raise ValueError
 
 def admin_cmd(pattern=None, **args):
+    args["func"] = lambda e: e.via_bot_id is None
+
     stack = inspect.stack()
     previous_stack_frame = stack[1]
     file_test = Path(previous_stack_frame.filename)
@@ -189,6 +207,8 @@ import datetime
 
 def register(**args):
     """ Register a new event. """
+    args["func"] = lambda e: e.via_bot_id is None
+
     stack = inspect.stack()
     previous_stack_frame = stack[1]
     file_test = Path(previous_stack_frame.filename)
@@ -302,4 +322,3 @@ class Loader():
     def __init__(self, func=None, **args):
         self.Var = Var
         bot.add_event_handler(func, events.NewMessage(**args))
-
