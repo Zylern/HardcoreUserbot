@@ -3,7 +3,7 @@
 # (c) JeepBot is not occur to all modules in here
 """
 Imdb Module
-.imdb
+.film
 """
 
 import bs4
@@ -19,7 +19,7 @@ from uniborg.util import admin_cmd
 langi = "en"
 
 #kanged from Blank-x ;---;
-@borg.on(admin_cmd("imdb (.*)", outgoing=True)) 
+@borg.on(admin_cmd("film (.*)", outgoing=True)) 
 async def imdb(e):
  try:
     movie_name = e.pattern_match.group(1)
