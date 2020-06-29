@@ -5,6 +5,7 @@ from telethon.tl.types import ChannelParticipantsAdmins
 from platform import uname
 from userbot import ALIVE_NAME
 from userbot.utils import admin_cmd
+START_TIME = datetime.now()
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "No name set yet nibba"
 
@@ -16,5 +17,6 @@ async def amireallyalive(alive):
                      "**Bot Made By:- @Zylern\n◆ ▬▬▬▬ ❴✪❵ ▬▬▬▬ ◆\n**"
                      "**Database Status: Databases functioning normally!**\n◆ ▬▬▬▬ ❴✪❵ ▬▬▬▬ ◆\n"
                      f"**My Master**: {DEFAULTUSER}\n◆ ▬▬▬▬ ❴✪❵ ▬▬▬▬ ◆\n"
+                     f"**Uptime**: {str(datetime.now() - START_TIME).split('.')[0]}\n◆ ▬▬▬▬ ❴✪❵ ▬▬▬▬ ◆\n"
                      "**[Deploy this userbot Now]**(https://github.com/Zylern/MastUserBot)\n"
                      "◆ ▬▬▬▬ ❴✪❵ ▬▬▬▬ ◆")
