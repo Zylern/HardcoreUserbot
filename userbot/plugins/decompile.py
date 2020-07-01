@@ -1,0 +1,182 @@
+
+from telethon import events
+from pathlib import Path
+
+import json, os, subprocess, time, math, asyncio
+from pySmartDL import SmartDL
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
+from telethon.tl.types import DocumentAttributeVideo
+from userbot import LOGS, CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
+
+
+
+async def progress(current, total, event, start, type_of_ps, file_name=None):
+    now = time.time()
+    diff = now - start
+    if round(diff % 10.00) == 0 or current == total:
+        percentage = current * 100 / total
+        speed = current / diff
+        elapsed_time = round(diff) * 1000
+        time_to_completion = round((total - current) / speed) * 1000
+        estimated_total_time = elapsed_time + time_to_completion
+        progress_str = "[{0}{1}] {2}%\n".format(
+            ''.join(["█" for i in range(math.floor(percentage / 10))]),
+            ''.join(["░" for i in range(10 - math.floor(percentage / 10))]),
+            round(percentage, 2))
+        tmp = progress_str + \
+            "{0} of {1}\nETA: {2}".format(
+                humanbytes(current),
+                humanbytes(total),
+                time_formatter(estimated_total_time)
+            )
+        if file_name:
+            await event.edit("{}\nFile Name: `{}`\n{}".format(
+                type_of_ps, file_name, tmp))
+        else:
+            await event.edit("{}\n{}".format(type_of_ps, tmp))
+            
+def humanbytes(size):
+    if not size:
+        return ""
+    power = 2**10
+    raised_to_pow = 0
+    dict_power_n = {0: "", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
+    while size > power:
+        size /= power
+        raised_to_pow += 1
+    return str(round(size, 2)) + " " + dict_power_n[raised_to_pow] + "B"
+
+
+def time_formatter(milliseconds: int) -> str:
+    seconds, milliseconds = divmod(int(milliseconds), 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    tmp = ((str(days) + " day(s), ") if days else "") + \
+        ((str(hours) + " hour(s), ") if hours else "") + \
+        ((str(minutes) + " minute(s), ") if minutes else "") + \
+        ((str(seconds) + " second(s), ") if seconds else "") + \
+        ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
+    return tmp[:-2]
+
+
+
+
+text = "**Terminal Status**"
+
+
+
+
+
+
+
+
+
+
+
+
+@borg.on(outgoing=True, pattern="^.decompile(?: |$)(.*)")
+async def _(event):
+    await event.edit(f"{text}\n\nAnalyzing Datas......")
+    input_str = event.pattern_match.group(1)
+    if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
+        os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
+    if "|" in input_str:
+        url, file_name = input_str.split("|")
+        url = url.strip()      
+        file_name = file_name.strip()
+        head, tail = os.path.split(file_name)
+        if head:
+            if not os.path.isdir(os.path.join(TEMP_DOWNLOAD_DIRECTORY, head)):
+                os.makedirs(os.path.join(TEMP_DOWNLOAD_DIRECTORY, head))
+                file_name = os.path.join(head, tail)
+        downloaded_file_name = TEMP_DOWNLOAD_DIRECTORY + "" + file_name
+        downloader = SmartDL(url, downloaded_file_name, progress_bar=False)
+        downloader.start(blocking=False)
+        c_time = time.time()
+        display_message = None
+        while not downloader.isFinished():
+            status = downloader.get_status().capitalize()
+            total_length = downloader.filesize if downloader.filesize else None
+            downloaded = downloader.get_dl_size()
+            now = time.time()
+            diff = now - c_time
+            percentage = downloader.get_progress() * 100
+            speed = downloader.get_speed()
+            elapsed_time = round(diff) * 1000
+            progress_str = "[{0}{1}] {2}%".format(
+                ''.join(["█" for i in range(math.floor(percentage / 10))]),
+                ''.join(["░"
+                         for i in range(10 - math.floor(percentage / 10))]),
+                round(percentage, 2))
+            estimated_total_time = downloader.get_eta(human=True)
+            try:
+                current_message = f"{status}..\
+                \nURL: {url}\
+                \nFile Name: {file_name}\
+                \n{progress_str}\
+                \n{humanbytes(downloaded)} of {humanbytes(total_length)}\
+                \nETA: {estimated_total_time}"
+
+                if round(diff %
+                    10.00) == 0 and current_message .= display_message:
+                    await event.edit(current_message)
+                    display_message = current_message
+            except Exception as e:
+                LOGS.info(str(e))
+        if downloader.isSuccessful():
+            await event.edit(f"{text} \n\nDownloaded  successfully ..")
+        else:
+            await event.edit("Incorrect URL\n{}".format(url))
+    elif event.reply_to_msg_id:
+        try:
+            c_time = time.time()
+            downloaded_file_name = await event.client.download_media(
+                await event.get_reply_message(),
+                TEMP_DOWNLOAD_DIRECTORY,
+                progress_callback=lambda d, t: asyncio.get_event_loop(
+                ).create_task(
+                    progress(d, t, event, c_time, f"{text} \n\nDownloading...")))
+        except Exception as e:  # pylint:disable=C0103,W0703
+            await event.edit(str(e))
+        else:
+            await event.edit(f"{text} \n\nDownloaded successfully ..")
+    else:
+        return await event.edit(f"Error\n`Reply to an apk to Decompile.`")
+
+    await event.edit(f"{text} \n\nDecompiling......")
+    os.system(f"rm -rf decompiled.zip decompiled && apktool d {downloaded_file_name} -o decompiled && zip -r decompiled.zip decompiled && rm -rf {downloaded_file_name}")    
+    my_file = Path("decompiled.zip")
+    if not my_file.exists():
+    	return await event.reply(f"{text}\n\nError: Decompile failed\n\n Possible Reasons\nApp name contain space / unknown characters / not end with .apk...... \nplease reupload with name of test.apk and try agin.... ")
+    await event.edit(f"{text}\n\nRe Analyzing Datas......")
+    input_str = "decompiled.zip"
+    if os.path.exists(input_str):
+        c_time = time.time()
+        await event.client.send_file(
+            event.chat_id,
+            input_str,
+            force_document=True,
+            allow_cache=False,
+            reply_to=event.message.id,
+            progress_callback=lambda d, t: asyncio.get_event_loop(
+            ).create_task(
+                progress(d, t, event, c_time, f"{text} \n\nUploading Decompiled files as zip...", input_str)))
+        await event.edit(f"{text} \n\n Decompiled and uploaded successfully ..")
+    else:
+        return await event.edit("{text}\n\nAdnormal Error")
+
+
+CMD_HELP.update({
+    "advance":
+    "`.decompile <reply to an app>`\
+\n**Usage:** decompile app , send as zip file.\
+"
+})
+
+
+
+
+
+    
