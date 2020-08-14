@@ -32,7 +32,7 @@ async def _(event):
         animation_chars = [
             
             "I am Putting my glasses.",
-            "😳",    
+            "😳⁡ ⁠⁠",    
             "😳                           🕶🤏",
             "😳                          🕶🤏",
             "😳                         🕶🤏",
@@ -60,7 +60,8 @@ async def _(event):
             "😳   🕶🤏",
             "😳  🕶🤏",
             "😳 🕶🤏",
-            "😎",
+            "😎⁡ ⁠⁠",
+            "😎⁡ ",
         ]
 
         for i in animation_ttl:
