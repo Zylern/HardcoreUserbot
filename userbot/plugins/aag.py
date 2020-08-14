@@ -28,8 +28,7 @@ async def _(event):
         await event.edit(input_str)
 
         animation_chars = [
-
-            "Aag Lagi",
+            
             "🔥",    
             "🌬💨                                   🔥",
             "🌬 💨                                  🔥",
@@ -68,7 +67,7 @@ async def _(event):
             "🌬                                  💨 🔥",
             "🌬                                   💨🔥",
             "🌬                                       ",
-            "**Aag Bhuj Gyi** 😁",
+            "😁",
         ]
 
         for i in animation_ttl:
