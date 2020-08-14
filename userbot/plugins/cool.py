@@ -1,5 +1,7 @@
 """COMMAND : .cool"""
 
+# Coded By Zylern
+
 from telethon import events
 
 import asyncio
@@ -16,10 +18,10 @@ async def _(event):
 
         return
 
-    animation_interval = 40
+    animation_interval = 50
     
 
-    animation_ttl = range(0, 41)
+    animation_ttl = range(0, 51)
 
     input_str = event.pattern_match.group(1)
 
@@ -29,8 +31,8 @@ async def _(event):
 
         animation_chars = [
             
-            "😳",    
             "I am Putting my glasses.",
+            "😳",    
             "😳                           🕶🤏",
             "😳                          🕶🤏",
             "😳                         🕶🤏",
@@ -64,4 +66,4 @@ async def _(event):
         for i in animation_ttl:
 
 
-            await event.edit(animation_chars[i % 41])
+            await event.edit(animation_chars[i % 51])
