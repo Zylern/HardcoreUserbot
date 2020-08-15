@@ -85,7 +85,7 @@ def time_formatter(milliseconds: int) -> str:
 
 
 
-@register(pattern=r".scan(?: |$)(.*)", outgoing=True)
+@register(pattern=r".vtscan(?: |$)(.*)", outgoing=True)
 async def vt(event):
     await event.edit(f"Analyzing Datas......")
     input_str = event.pattern_match.group(1)
@@ -176,7 +176,7 @@ async def vt(event):
                     
                     
 
-@borg.on(admin_cmd(pattern=f"scan(?: |$)(.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern=f"vtscan(?: |$)(.*)", allow_sudo=True))
 async def vt(event):
     rkp = await event.reply(f"Analyzing Datas......")
     input_str = event.pattern_match.group(1)
@@ -268,7 +268,7 @@ async def vt(event):
                     
                     
 
-@register(pattern=r".scan2(?: |$)(.*)", outgoing=True)
+@register(pattern=r".scan(?: |$)(.*)", outgoing=True)
 async def _(event):
     reply_message = await event.get_reply_message() 
     if not reply_message or not event.reply_to_msg_id or not reply_message.media or not reply_message.media:
@@ -285,7 +285,7 @@ async def _(event):
           except:      
               return await event.reply(f"Please unblock @DrWebBot and try again")
 
-@borg.on(admin_cmd(pattern=f"scan2(?: |$)(.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern=f"scan(?: |$)(.*)", allow_sudo=True))
 async def _(event):
     reply_message = await event.get_reply_message() 
     if not reply_message or not event.reply_to_msg_id or not reply_message.media or not reply_message.media:
@@ -343,31 +343,14 @@ async def _(event):
 
 CMD_HELP.update({
     "virus_scan":
-    "`.scan <file path>`\
+    "`.vtscan <file path>`\
 \n**Example:** `.scan reply to a file` \
 \n**Usage:** Scan file in https://www.virustotal.com/gui/\
-\n\n`.scan2 <reply to a message>`\
+\n\n`.scan <reply to a message>`\
 \n**Usage:** scan the file\
 \n`.uscan <url>`\
 \n**Usage:** scan the url\
 "
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
+   
