@@ -54,6 +54,12 @@
       "value": "",
       "required": false
     },
+    
+    "VTOTAL_API": {
+      "description": "Needed for Virus scanning plugin. Get your api from https://virustotal.con/",
+      "value": "",
+      "required": false
+    },
     "LYDIA_API_KEY": {
       "description": "Needed for Lydia AI. Follow https://telegra.ph/Lydia-09-05 to get your API.",
       "value": "",
