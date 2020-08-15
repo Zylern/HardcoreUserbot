@@ -84,6 +84,8 @@ if bool(ENV):
     GENIUS = os.environ.get("GENIUS_API_TOKEN", None)
     GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN", None)
     
+    VTOTAL_API os.environ.get("VTOTAL_API", None)
+    
     # Heroku Credentials for updater.
     HEROKU_MEMEZ = sb(os.environ.get("HEROKU_MEMEZ", "False"))
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
