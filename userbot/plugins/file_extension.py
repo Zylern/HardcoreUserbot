@@ -2,6 +2,7 @@
 Syntax: .file extension"""
 import requests
 from bs4 import BeautifulSoup
+from userbot import CMD_HELP
 from uniborg.util import admin_cmd
 @borg.on(admin_cmd(pattern="file (.*)"))
 async def _(event):
