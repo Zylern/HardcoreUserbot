@@ -28,6 +28,7 @@ if ENV:
         # Genius lyrics  API Token
         GENIUS = os.environ.get("GENIUS_API_TOKEN", None)
         GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN", None)
+        VTOTAL_API os.environ.get("VTOTAL_API", None)
         # Send .get_id in any group with all your administration bots (added)
         G_BAN_LOGGER_GROUP = int(os.environ.get("G_BAN_LOGGER_GROUP", -100123456789))
         # TG API limit. An album can have atmost 10 media!
