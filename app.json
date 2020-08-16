@@ -80,11 +80,6 @@
       "value": "",
       "required": false
     },
-    "AFK_MESSAGE": {
-      "description": "Edit if you not like this.",
-      "value": "Hello buddy, i am AFK now leave Your message i will see it.",
-      "required": true
-    },
     "PRIVATE_GROUP_BOT_API_ID": {
       "description": "Get It From The Group That You Have Created With Bot And Copy Its Chat Id and Paste Here.",
       "value": "",
