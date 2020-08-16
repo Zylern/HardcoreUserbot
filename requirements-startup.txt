@@ -53,5 +53,4 @@ asyncurban
 urbandict
 virustotal_python
 wikipedia>=1.4.0
-youtubesearchpython
 youtube-dl
