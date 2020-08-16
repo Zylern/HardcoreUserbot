@@ -28,7 +28,7 @@ async def _(event):
               await event.client.forward_messages(chat, reply_message)
               response = await test
           except YouBlockedUserError: 
-              await rkp.edit("`Please unblock @sangmatainfo_bot and try again`")
+              await rkp.edit("Please unblock @sangmatainfo_bot and try again")
               return
           if response.text.startswith("Forward"):
              return await rkp.edit("`Privacy error!`")              
@@ -74,7 +74,7 @@ async def _(event):
               await borg.forward_messages(chat, reply_message)
               response = await response 
           except YouBlockedUserError: 
-              await event.reply("```nikal gendu```")
+              await event.reply("Please unblock @getidsbot and try again")
               return
           if response.text.startswith("Hello,"):
              await event.edit("```can you kindly disable your forward privacy settings for good?```")
@@ -106,7 +106,7 @@ async def _(event):
               await borg.forward_messages(chat, reply_message)
               response = await response 
           except YouBlockedUserError: 
-              await event.reply("```nikal gendu```")
+              await event.reply("Please unblock @UrbanDictionaryBot and try again")
               return
           if response.text.startswith("Hello,"):
              await event.edit("```can you kindly disable your forward privacy settings for good?```")
@@ -124,7 +124,7 @@ CMD_HELP.update({
 \n**Usage:** Give you uername and name hitory using sangmata bot\
 \n\n`.getid <reply to a message>`\
 \n**Usage:** Give you uername and name hitory using getidsbot\
-\n`.mean <word>`\
+\n`.mean <reply to a message>`\
 \n**Usage:** Show the meaning of word using UrbanDictionaryBot\
 "
 })
