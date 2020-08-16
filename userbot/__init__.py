@@ -69,6 +69,8 @@ if bool(ENV):
     # Bleep Blop, this is a bot ;)
     PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "False"))
     
+    AFK_MESSAGE = (f"Hello buddy, i am AFK now leave Your message i will see it.")
+    
     AFK_MSG = (f"Hello buddy, i am AFK now leave Your message i will see it.")
 
     # Console verbose logging
