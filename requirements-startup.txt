@@ -31,7 +31,6 @@ lxml
 oauth2client
 psycopg2
 psycopg2-binary
-sqlalchemy
 pySmartDL
 pybase64>=0.4.0
 pyfiglet
