@@ -37,7 +37,12 @@
     "GENIUS_API_TOKEN": {
       "description": "Needed for .lyrics comand , Get your own api token from https://genius.com/developers",
       "required": false,
-       "value": ""
+       "value": "GD7po3dtuhCu3hioqYe-YzqjRdmKHcmW1tMAe-Q3sRS58x-vmgX9JyFIePsW5Gjh"
+    },
+    "OCR_SPACE_API_KEY": {
+      "description": "OCR API Key for .read (read photo's text)command. Get from https://ocr.space/ocrapi (if you have api enter your or leave it default.)",
+      "value": "59d6dc729288957",
+      "required": false
     },
     "REM_BG_API_KEY": {
       "description": "Needed for .removebg comand , Get your own api token from https://remove.bg",
@@ -54,7 +59,6 @@
       "value": "",
       "required": false
     },
-    
     "VTOTAL_API": {
       "description": "Needed for Virus scanning plugin. Get your api from https://virustotal.con/",
       "value": "",
