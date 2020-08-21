@@ -844,7 +844,7 @@ async def vapor(vpr):
 @register(outgoing=True, pattern="^.repo$")
 async def source(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("Click [here](https://github.com/Zylern/MastUserBot/) to open this repo created by @Zylern.")
+        await e.edit("Click [here](https://github.com/Zylern/MastUserBot) to open this repo created by @Zylern.")
 			  
 			  
 @register(outgoing=True, pattern="^.str(?: |$)(.*)")
